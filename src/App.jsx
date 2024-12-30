@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
-import supabase from "./supabase/client";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const { user, checkUser, signInWithGithub, signout } = useAuth();
+
   useEffect(() => {
     checkUser();
 
@@ -14,22 +13,6 @@ function App() {
       checkUser();
     });
   }, []);
-
-  const checkUser = async () => {
-    const userData = await supabase.auth.getUser();
-    console.log(userData);
-    setUser(userData?.data?.user?.user_metadata);
-  };
-
-  const signInWithGithub = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "github",
-    });
-  };
-
-  const signout = async () => {
-    await supabase.auth.signOut();
-  };
 
   return (
     <>
