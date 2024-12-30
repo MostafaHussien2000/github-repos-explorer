@@ -1,0 +1,36 @@
+.home {
+  padding: 10px;
+}
+
+.home header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-block: 20px;
+}
+
+.home section h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--gray-12);
+}
+
+.home section h1 span {
+  color: var(--accent-11);
+}
+
+.home section > p {
+  max-width: 450px;
+  margin-inline: auto;
+  color: var(--gray-10);
+}
+
+.home section button {
+  display: block;
+  margin-top: 40px;
+  margin-inline: auto;
+  cursor: pointer;
+}
+
+.home svg path {
+  fill: var(--gray-12);
+}
