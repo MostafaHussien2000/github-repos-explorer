@@ -1,0 +1,42 @@
+.repositories {
+  padding: 10px;
+}
+
+.repositories header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 10px;
+  background-color: var(--gray-2);
+  border-radius: var(--radius-2);
+}
+
+.repositories header button {
+  cursor: pointer;
+}
+
+.repositories section h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--gray-12);
+}
+
+.repositories section h1 span {
+  color: var(--accent-11);
+}
+
+.repositories section > p {
+  max-width: 450px;
+  margin-inline: auto;
+  color: var(--gray-10);
+}
+
+.repositories section button {
+  display: block;
+  margin-top: 40px;
+  margin-inline: auto;
+  cursor: pointer;
+}
+
+.repositories svg path {
+  fill: var(--gray-12);
+}

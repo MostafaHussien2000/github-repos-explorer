@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 
 import { useAuth } from "./context/AuthContext";
 import Home from "./pages/Home";
+import Repositories from "./pages/Repositories";
 
 function App() {
-  const { user, checkUser, signInWithGithub, signout } = useAuth();
+  const { user, checkUser } = useAuth();
 
   useEffect(() => {
     checkUser();
@@ -14,18 +15,7 @@ function App() {
     });
   }, []);
 
-  return (
-    <>
-      {/* <h1>Hello {user ? user.preferred_username : null},</h1>
-      {user ? (
-        <button onClick={signout}>Sign out</button>
-      ) : (
-        <button onClick={signInWithGithub}>Sign in</button>
-      )} */}
-
-      <Home />
-    </>
-  );
+  return <>{user ? <Repositories /> : <Home />}</>;
 }
 
 export default App;
