@@ -27,7 +27,8 @@
 .repositories section > p {
   max-width: 450px;
   margin-inline: auto;
-  color: var(--gray-10);
+  text-align: center;
+  color: var(--gray-11);
 }
 
 .repositories section button {
