@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Repositories.module.css";
 import {
   Avatar,
@@ -12,12 +12,35 @@ import {
 import { useAuth } from "../context/AuthContext";
 import RepoCard from "../components/RepoCard";
 
+const getReposURL = (username, perPage, page) =>
+  `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`;
+
 function Repositories() {
   const { user, signout } = useAuth();
 
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  const observer = useRef();
+  const lastElement = useCallback(
+    (node) => {
+      if (loading) return null;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entities) => {
+        if (entities[0].isIntersecting && hasMore) {
+          setPage((currentPage) => currentPage + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
   if (!user)
     return (
@@ -32,12 +55,12 @@ function Repositories() {
         setLoading(true);
 
         const response = await fetch(
-          `https://api.github.com/users/${user.preferred_username}/repos?per_page=8`
+          getReposURL(user.preferred_username, 8, page)
         );
         const data = await response.json();
 
-        console.log(data);
-        setRepos(data);
+        if (data.length === 0) setHasMore(false);
+        else setRepos((current) => [...current, ...data]);
       } catch (err) {
         setError(err.message);
         console.error("Error fetching your repos:", err);
@@ -77,9 +100,15 @@ function Repositories() {
         <p>{error}</p>
       ) : repos && repos.length > 0 ? (
         <Grid columns="2" gap="3">
-          {repos.map((repo) => (
-            <RepoCard repo={repo} key={repo.name} />
-          ))}
+          {repos.map((repo, index) =>
+            index === repos.length - 1 ? (
+              <div key={repo.name} ref={observer}>
+                <RepoCard repo={repo} />
+              </div>
+            ) : (
+              <RepoCard repo={repo} key={repo.name} />
+            )
+          )}
         </Grid>
       ) : (
         <p>No repos found</p>
