@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <AuthProvider>
         <Theme appearance="dark" accentColor="green" grayColor="slate">
-          <Container px={"2"}>
+          <Container px={"4"}>
             <App />
           </Container>
         </Theme>

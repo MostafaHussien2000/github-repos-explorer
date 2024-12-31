@@ -6,27 +6,31 @@ import {
   Code,
   DataList,
   Flex,
+  Grid,
   Heading,
   IconButton,
   Link,
+  Separator,
   Text,
 } from "@radix-ui/themes";
 import { GoCopy, GoRepoForked, GoStar } from "react-icons/go";
+import AddCommentForm from "../components/AddCommentForm";
+import { Comments } from "../utils/comments";
+import CommentCard from "../components/CommentCard";
 
 function RepoDetails() {
   const { user } = useAuth();
-
-  console.log("User:", user.preferred_username);
 
   if (!user?.preferred_username) <Navigate to="/" />;
 
   const { slug } = useParams();
 
-  console.log("Current Repo:", slug);
-
   const [repo, setRepo] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const commentsSystem = new Comments();
+  const [repoComments, setRepoComments] = useState({});
 
   const getRepoDetails = async () => {
     try {
@@ -38,8 +42,11 @@ function RepoDetails() {
 
       const data = await response.json();
       setRepo(data);
-      console.log(user);
+
+      setRepoComments(commentsSystem.getComments(slug));
     } catch (err) {
+      setError(err.message);
+      console.error("Error Fetching Repo Data:", err);
     } finally {
       setLoading(false);
     }
@@ -48,9 +55,13 @@ function RepoDetails() {
   useEffect(() => {
     getRepoDetails();
   }, []);
+
   return (
     <main>
-      <InfoAboutRepo />
+      <InfoAboutRepo repo={repo} user={user} />
+      <Separator my="6" size="4" />
+      <AddCommentForm repoId={slug} setRepoComments={setRepoComments} />
+      <RepoComments slug={slug} comments={repoComments} />
     </main>
   );
 }
@@ -62,16 +73,16 @@ function InfoAboutRepo({ user, repo }) {
     <>
       <Heading>{repo?.name}</Heading>
       <Text>
-        By: <Link href={user.html_url}>@{user.preferred_username}</Link>
+        By: <Link href={user?.html_url}>@{user?.preferred_username}</Link>
       </Text>
       <Flex gap={"2"}>
         <Badge variant="outline">
           <GoRepoForked />
-          {repo.forks_count}
+          {repo?.forks_count}
         </Badge>
         <Badge variant="outline" color="yellow">
           <GoStar />
-          {repo.stargazers_count}
+          {repo?.stargazers_count}
         </Badge>
       </Flex>
       <DataList.Root>
@@ -118,6 +129,26 @@ function InfoAboutRepo({ user, repo }) {
           </DataList.Value>
         </DataList.Item>
       </DataList.Root>
+    </>
+  );
+}
+
+function RepoComments({ comments }) {
+  return (
+    <>
+      {comments.length > 0 ? (
+        <Grid gap="4" mt="4">
+          {comments.map((comment) => (
+            <CommentCard key={comment.id} comment={comment} />
+          ))}
+        </Grid>
+      ) : (
+        <center>
+          <Text mt="8" as="p" color="gray">
+            There are no comments for this repo.
+          </Text>
+        </center>
+      )}
     </>
   );
 }
