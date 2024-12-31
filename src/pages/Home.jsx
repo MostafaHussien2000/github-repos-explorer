@@ -1,9 +1,10 @@
 import { Box, Button, Heading, Text } from "@radix-ui/themes";
 import styles from "./Home.module.css";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function Home() {
-  const { signInWithGithub } = useAuth();
+  const { user, signInWithGithub } = useAuth();
   return (
     <main id="home-page" className={`${styles.home}`}>
       <header>
@@ -18,7 +19,13 @@ function Home() {
           than Github).
         </Text>
         <Box>
-          <Button onClick={signInWithGithub}>Login with Github</Button>
+          {user?.preferred_username ? (
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              <Button>Go to profile</Button>
+            </Link>
+          ) : (
+            <Button onClick={signInWithGithub}>Login with Github</Button>
+          )}
         </Box>
       </section>
     </main>

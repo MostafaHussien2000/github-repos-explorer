@@ -5,15 +5,18 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 
 import "@radix-ui/themes/styles.css";
 import { Container, Theme } from "@radix-ui/themes";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <Theme appearance="dark" accentColor="green" grayColor="slate">
-        <Container>
-          <App />
-        </Container>
-      </Theme>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <Theme appearance="dark" accentColor="green" grayColor="slate">
+          <Container px={"2"}>
+            <App />
+          </Container>
+        </Theme>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>
 );

@@ -1,2 +1,7 @@
-.repo-card {
+.repo-card a:first-of-type {
+  color: var(--accent-11);
+  text-decoration: none;
+}
+.repo-card a:first-of-type:hover {
+  text-decoration: underline;
 }

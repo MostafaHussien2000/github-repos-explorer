@@ -82,11 +82,11 @@ function ReposGrid() {
         <SkeletonLoading />
       ) : error ? (
         <p>Error: {error}</p>
-      ) : repos.length > 0 ? (
+      ) : repos?.length > 0 ? (
         <>
           <Grid columns="2" gap="5">
-            {repos.map((repo, index) =>
-              repos.length === index + 1 ? (
+            {repos?.map((repo, index) =>
+              repos?.length === index + 1 ? (
                 <div ref={lastRepoElement} key={repo.id}>
                   <h1>Ref element</h1>
                   <RepoCard repo={repo} key={repo.id} />

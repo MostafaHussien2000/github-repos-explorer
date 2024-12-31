@@ -7,7 +7,6 @@ import {
   Card,
   Flex,
   Grid,
-  Link,
   Popover,
   Separator,
   Text,
@@ -16,6 +15,7 @@ import {
 import { GoComment, GoRepo, GoRepoForked, GoStar } from "react-icons/go";
 import styles from "./RepoCard.module.css";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function RepoCard({ repo }) {
   return (
@@ -23,9 +23,7 @@ function RepoCard({ repo }) {
       <Flex justify="between" align="center">
         <Flex gap="4" align="center">
           <GoRepo />
-          <Link href={repo.html_url} target="_blank">
-            {repo.name}
-          </Link>
+          <Link to={`/repos/${repo.name}`}>{repo.name}</Link>
         </Flex>
         <Flex gap={"2"}>
           <Badge variant="outline">

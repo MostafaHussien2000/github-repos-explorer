@@ -49,6 +49,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       setError(err.message);
     } finally {
+      window.location.pathname = "/";
       setLoading(false);
     }
   };
