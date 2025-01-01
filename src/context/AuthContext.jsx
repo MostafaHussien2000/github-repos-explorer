@@ -18,7 +18,10 @@ export function AuthProvider({ children }) {
     try {
       setLoading(true);
       setError(null);
+
       const userData = await supabase.auth.getUser();
+
+      if (!userData?.data.user) throw new Error("No data found for this user.");
 
       const userInfo = new User(
         userData?.data?.user?.user_metadata?.preferred_username
@@ -35,6 +38,7 @@ export function AuthProvider({ children }) {
         },
       });
     } catch (err) {
+      console.error("Authentication Error:", err);
       setError(err.message);
     } finally {
       setLoading(false);
