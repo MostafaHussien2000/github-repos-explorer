@@ -18,15 +18,6 @@ import { formatTimeAgo } from "../../utils/dateFormatter";
 function CommentCard({ comment, deleteComment }) {
   const { user } = useAuth();
 
-  const dateFormatter = (date) => {
-    date = new Date(date);
-    let day = String(date.getDate()).padStart(2, "0");
-    let month = String(date.getMonth() + 1).padStart(2, "0");
-    let year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  };
-
   return (
     <Card>
       <Flex gap="3" align="center" justify="between">

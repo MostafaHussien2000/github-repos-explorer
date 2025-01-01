@@ -78,7 +78,7 @@ function RepoInformation({ repo }) {
           </Text>
         )}
 
-        <LanguagesSection url={repo?.languages_url} />
+        <LanguagesSection username={repo?.owner?.login} repo={repo?.name} />
       </header>
     </>
   );

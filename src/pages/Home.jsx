@@ -1,10 +1,13 @@
 import { Box, Button, Heading, Text } from "@radix-ui/themes";
 import styles from "./Home.module.css";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 function Home() {
   const { user, signInWithGithub } = useAuth();
+
+  if (user?.preferred_username) return <Navigate to="/profile" />;
+
   return (
     <main id="home-page" className={`${styles.home}`}>
       <header>

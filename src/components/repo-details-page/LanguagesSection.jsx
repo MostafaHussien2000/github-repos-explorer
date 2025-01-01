@@ -1,24 +1,25 @@
 import { Badge, Box, Flex, Spinner, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 
-function LanguagesSection({ url }) {
+function LanguagesSection({ repo, username, url }) {
   const [languages, setLanguages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const REQUEST_URL = `https://api.github.com/repos/${username}/${repo}/languages`;
+
+  if (!repo || !username) return <></>;
+
   const getLanguages = async () => {
-    console.log(url);
     try {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(url);
+      const response = await fetch(REQUEST_URL);
 
       const data = await response.json();
 
       setLanguages(Object.keys(data));
-
-      console.log(languages);
     } catch (err) {
       setError(err.message);
       console.error("Error fetching repo's languages:", err);
@@ -31,28 +32,26 @@ function LanguagesSection({ url }) {
     getLanguages();
   }, []);
 
-  if (!url) return <Text color="gray">Languages are not specified.</Text>;
-
-  if (error) return <></>;
+  if (error) return <>error</>;
 
   return (
     <Box my={"4"}>
-      <Flex gap={"2"} align={"center"}>
-        <Text size={"2"}>Languages:</Text>
-        {loading ? (
-          <Spinner />
-        ) : error || languages.length === 0 ? (
-          <></>
-        ) : (
+      {loading ? (
+        <Spinner />
+      ) : error || languages?.length === 0 ? (
+        <></>
+      ) : (
+        <Flex gap={"2"} align={"center"}>
+          <Text size={"2"}>Languages:</Text>
           <Flex gap={"2"}>
-            {languages.map((lang) => (
+            {languages?.map((lang) => (
               <Badge variant="solid" color="gray" key={lang}>
                 {lang}
               </Badge>
             ))}
           </Flex>
-        )}
-      </Flex>
+        </Flex>
+      )}
     </Box>
   );
 }
