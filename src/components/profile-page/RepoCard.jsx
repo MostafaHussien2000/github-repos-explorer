@@ -14,7 +14,7 @@ import {
 } from "@radix-ui/themes";
 import { GoComment, GoRepo, GoRepoForked, GoStar } from "react-icons/go";
 import styles from "./RepoCard.module.css";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 
 function RepoCard({ repo }) {

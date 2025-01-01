@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 
 import supabase from "../supabase/client";
+import { User } from "../utils/User";
 
 const AuthContext = createContext();
 
@@ -18,7 +19,21 @@ export function AuthProvider({ children }) {
       setLoading(true);
       setError(null);
       const userData = await supabase.auth.getUser();
-      setUser(userData?.data?.user?.user_metadata);
+
+      const userInfo = new User(
+        userData?.data?.user?.user_metadata?.preferred_username
+      );
+
+      await userInfo.fetchAllRelatedData();
+
+      setUser({
+        ...userData?.data?.user?.user_metadata,
+        states: {
+          following: userInfo.getFollowingCount(),
+          followers: userInfo.getFollowersCount(),
+          repos_count: userInfo.getReposCount(),
+        },
+      });
     } catch (err) {
       setError(err.message);
     } finally {

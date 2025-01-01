@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useAuth } from "./context/AuthContext";
 import Home from "./pages/Home";
-import Repositories from "./pages/Repositories";
-import { Navigate, Route, Routes } from "react-router-dom";
+import Profile from "./pages/Profile";
+import { Route, Routes } from "react-router-dom";
 import RepoDetails from "./pages/RepoDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const { user, checkUser } = useAuth();
+  const { checkUser } = useAuth();
 
   useEffect(() => {
     checkUser();
@@ -27,7 +27,7 @@ function App() {
         path="/profile"
         element={
           <ProtectedRoute>
-            <Repositories />
+            <Profile />
           </ProtectedRoute>
         }
       />

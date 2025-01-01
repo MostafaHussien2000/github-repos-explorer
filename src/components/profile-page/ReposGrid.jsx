@@ -1,18 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-import RepoCard from "./RepoCard";
-import {
-  Button,
-  Callout,
-  Flex,
-  Grid,
-  Link,
-  Skeleton,
-  Text,
-} from "@radix-ui/themes";
-import { useAuth } from "../context/AuthContext";
-import { getReposURL } from "../utils/urls";
+import { Callout, Flex, Grid, Link, Skeleton, Text } from "@radix-ui/themes";
+import { useAuth } from "../../context/AuthContext";
+import { getReposURL } from "../../utils/urls";
 import { GoInfo } from "react-icons/go";
+
+import RepoCard from "./RepoCard";
 
 function ReposGrid() {
   const { user } = useAuth();
