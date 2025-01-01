@@ -6,6 +6,7 @@ import { GoInfo } from "react-icons/go";
 
 import RepoCard from "./RepoCard";
 import { getUserReposURL } from "../../utils/github-api";
+import ErrorMessage from "../common/ErrorMessage";
 
 function ReposGrid() {
   const { user } = useAuth();
@@ -74,7 +75,7 @@ function ReposGrid() {
       {loading ? (
         <SkeletonLoading />
       ) : error ? (
-        <p>Error: {error}</p>
+        <ErrorMessage message={error} />
       ) : repos?.length > 0 ? (
         <>
           <Grid columns={{ xs: "1", md: "2", lg: "3" }} gap="5">

@@ -7,6 +7,7 @@ import { Comments } from "../utils/comments";
 import RepoInformation from "../components/repo-details-page/RepoInformation";
 import RepoCommentsSection from "../components/repo-details-page/RepoCommentsSection";
 import { getRepoDetailsURL } from "../utils/github-api";
+import ErrorMessage from "../components/common/ErrorMessage";
 
 function RepoDetails() {
   const { user } = useAuth();
@@ -50,6 +51,8 @@ function RepoDetails() {
   useEffect(() => {
     getRepoDetails();
   }, []);
+
+  if (error) return <ErrorMessage message={error} />;
 
   return loading ? (
     <Flex height={"100vh"} width={"100vw"} justify={"center"} align={"center"}>
