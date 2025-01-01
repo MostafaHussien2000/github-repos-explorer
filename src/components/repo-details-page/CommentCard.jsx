@@ -13,7 +13,7 @@ import React from "react";
 import { Comments } from "../../utils/comments";
 import { useAuth } from "../../context/AuthContext";
 import { GoTrash } from "react-icons/go";
-import { formatTimeAgo } from "../../utils/dateFormatter";
+import { formatTimeAgo } from "../../utils/helperFunctions";
 
 function CommentCard({ comment, deleteComment }) {
   const { user } = useAuth();

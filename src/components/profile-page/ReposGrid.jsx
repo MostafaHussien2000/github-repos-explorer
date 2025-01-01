@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Callout, Flex, Grid, Link, Skeleton, Text } from "@radix-ui/themes";
 import { useAuth } from "../../context/AuthContext";
-import { getReposURL } from "../../utils/urls";
 import { GoInfo } from "react-icons/go";
 
 import RepoCard from "./RepoCard";
+import { getUserReposURL } from "../../utils/github-api";
 
 function ReposGrid() {
   const { user } = useAuth();
@@ -48,7 +48,7 @@ function ReposGrid() {
       fetchedPages.current.add(page);
 
       const response = await fetch(
-        getReposURL(user.preferred_username, REPOS_PER_PAGE, page)
+        getUserReposURL(user.preferred_username, REPOS_PER_PAGE, page)
       );
       if (!response.ok) throw new Error("Failed to fetch repositories");
 

@@ -1,12 +1,11 @@
 import { Badge, Box, Flex, Spinner, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
+import { getRepoLanguagesURl } from "../../utils/github-api";
 
 function LanguagesSection({ repo, username, url }) {
   const [languages, setLanguages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const REQUEST_URL = `https://api.github.com/repos/${username}/${repo}/languages`;
 
   if (!repo || !username) return <></>;
 
@@ -15,7 +14,7 @@ function LanguagesSection({ repo, username, url }) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(REQUEST_URL);
+      const response = await fetch(getRepoLanguagesURl(username, repo));
 
       const data = await response.json();
 

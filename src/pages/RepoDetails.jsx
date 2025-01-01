@@ -6,6 +6,7 @@ import AddCommentForm from "../components/repo-details-page/AddCommentForm";
 import { Comments } from "../utils/comments";
 import RepoInformation from "../components/repo-details-page/RepoInformation";
 import RepoCommentsSection from "../components/repo-details-page/RepoCommentsSection";
+import { getRepoDetailsURL } from "../utils/github-api";
 
 function RepoDetails() {
   const { user } = useAuth();
@@ -31,7 +32,7 @@ function RepoDetails() {
       setLoading(true);
 
       const response = await fetch(
-        `https://api.github.com/repos/${user.preferred_username}/${slug}`
+        getRepoDetailsURL(user.preferred_username, slug)
       );
 
       const data = await response.json();
