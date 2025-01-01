@@ -10,11 +10,12 @@ import {
   Text,
 } from "@radix-ui/themes";
 import React from "react";
-import { Comments } from "../utils/comments";
-import { useAuth } from "../context/AuthContext";
+import { Comments } from "../../utils/comments";
+import { useAuth } from "../../context/AuthContext";
 import { GoTrash } from "react-icons/go";
+import { formatTimeAgo } from "../../utils/dateFormatter";
 
-function CommentCard({ comment }) {
+function CommentCard({ comment, deleteComment }) {
   const { user } = useAuth();
 
   const dateFormatter = (date) => {
@@ -36,11 +37,14 @@ function CommentCard({ comment }) {
               {user?.preferred_username}
             </Text>
             <Text as="div" size="2" color="gray">
-              {dateFormatter(comment?.createdAt)}
+              {formatTimeAgo(comment?.createdAt)}
             </Text>
           </Box>
         </Flex>
-        <DeleteCommentButton commentId={comment.id} />
+        <DeleteCommentButton
+          commentId={comment.id}
+          deleteComment={deleteComment}
+        />
       </Flex>
       <Text as="p" my={"3"}>
         {comment.text}
@@ -51,12 +55,8 @@ function CommentCard({ comment }) {
 
 export default CommentCard;
 
-function DeleteCommentButton({ commentId, repoId }) {
+function DeleteCommentButton({ commentId, deleteComment }) {
   const commentsSystem = new Comments();
-
-  const deleteComment = () => {
-    console.log(`Deleting comment ${commentId} in repo ${repoId}`);
-  };
 
   return (
     <AlertDialog.Root>
@@ -78,7 +78,11 @@ function DeleteCommentButton({ commentId, repoId }) {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button onClick={deleteComment} variant="solid" color="red">
+            <Button
+              onClick={() => deleteComment(commentId)}
+              variant="solid"
+              color="red"
+            >
               Delete
             </Button>
           </AlertDialog.Action>

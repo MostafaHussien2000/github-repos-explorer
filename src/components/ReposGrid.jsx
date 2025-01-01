@@ -84,11 +84,10 @@ function ReposGrid() {
         <p>Error: {error}</p>
       ) : repos?.length > 0 ? (
         <>
-          <Grid columns="2" gap="5">
+          <Grid columns={{ xs: "1", md: "2", lg: "3" }} gap="5">
             {repos?.map((repo, index) =>
               repos?.length === index + 1 ? (
                 <div ref={lastRepoElement} key={repo.id}>
-                  <h1>Ref element</h1>
                   <RepoCard repo={repo} key={repo.id} />
                 </div>
               ) : (
