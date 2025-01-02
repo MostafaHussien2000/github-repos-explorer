@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Flex, Separator, Spinner } from "@radix-ui/themes";
+import {
+  Button,
+  Flex,
+  Heading,
+  Separator,
+  Spinner,
+  Text,
+} from "@radix-ui/themes";
 import AddCommentForm from "../components/repo-details-page/AddCommentForm";
 import { Comments } from "../utils/comments";
 import RepoInformation from "../components/repo-details-page/RepoInformation";
@@ -11,8 +18,6 @@ import ErrorMessage from "../components/common/ErrorMessage";
 
 function RepoDetails() {
   const { user } = useAuth();
-
-  if (!user?.preferred_username) <Navigate to="/" />;
 
   const { slug } = useParams();
 
@@ -58,7 +63,7 @@ function RepoDetails() {
     <Flex height={"100vh"} width={"100vw"} justify={"center"} align={"center"}>
       <Spinner size={"3"} />
     </Flex>
-  ) : (
+  ) : repo?.name ? (
     <main>
       <RepoInformation repo={repo} />
       <Separator my="6" size="4" />
@@ -68,6 +73,25 @@ function RepoDetails() {
         comments={repoComments}
       />
     </main>
+  ) : (
+    <Flex
+      height={"100vh"}
+      direction={"column"}
+      justify={"center"}
+      align={"center"}
+      gap={"3"}
+    >
+      <Heading style={{ color: "var(--accent-11)" }}>
+        This repo does not exit in your public repos.
+      </Heading>
+      <Text>
+        You are trying to access repo that is not in your public repos. If it
+        exists
+      </Text>
+      <Link mt="5" to="/profile">
+        <Button>Go back to all repos</Button>
+      </Link>
+    </Flex>
   );
 }
 
