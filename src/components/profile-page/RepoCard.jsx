@@ -11,6 +11,7 @@ import {
 } from "@radix-ui/themes";
 import { GoRepo, GoRepoForked, GoStar } from "react-icons/go";
 import styles from "./RepoCard.module.css";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 function RepoCard({ repo }) {
   console.log(repo.html_url);
@@ -19,7 +20,9 @@ function RepoCard({ repo }) {
       <Flex justify="between" align="center">
         <Flex gap="4" align="center">
           <GoRepo />
-          <Link to={`/repos/${repo.name}`}>{repo.name}</Link>
+          <ReactRouterLink to={`/repos/${repo.name}`}>
+            {repo.name}
+          </ReactRouterLink>
         </Flex>
         <Flex gap={"2"}>
           <Badge variant="outline">
