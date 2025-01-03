@@ -20,30 +20,32 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route exact path="/" Component={Home} />
+    <>
+      <Routes>
+        <Route exact path="/" Component={Home} />
 
-      <Route
-        exact
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        exact
-        path="/repos/:slug"
-        element={
-          <ProtectedRoute>
-            <RepoDetails />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          exact
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="/repos/:slug"
+          element={
+            <ProtectedRoute>
+              <RepoDetails />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route path="*" Component={NotFound} />
-    </Routes>
+        <Route path="*" Component={NotFound} />
+      </Routes>
+    </>
   );
 }
 
